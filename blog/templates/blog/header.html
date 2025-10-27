@@ -1,0 +1,29 @@
+<header class="header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="/">Мой Блог</a>
+        </div>
+        
+        <!-- Мобильное меню -->
+        <button class="menu-toggle" aria-label="Открыть меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <nav class="nav">
+            <a href="/" class="nav-link">Главная</a>
+            <a href="/about/" class="nav-link">О себе</a>
+            <div class="nav-categories">
+                <span class="categories-toggle">Категории ▼</span>
+                <div class="categories-dropdown">
+                    {% for category in categories %}
+                        <a href="{% url 'category_posts' slug=category.slug %}" class="category-link">
+                            {{ category.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>

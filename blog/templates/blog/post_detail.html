@@ -1,0 +1,51 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} - Мой блог на Django{% endblock %}
+
+{% block content %}
+<article class="post-detail">
+    <header class="post-header">
+        <h1>{{ post.title }}</h1>
+        <div class="post-meta">
+            {% if post.category %}
+                <span class="category">{{ post.category.name }}</span>
+            {% endif %}
+            <span class="date">Опубликовано: {{ post.create_date|date:"d.m.Y H:i" }}</span>
+        </div>
+    </header>
+    {% if post.image %}
+        <div class="post-image">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" loading="lazy">
+        </div>
+    {% endif %}
+
+    {% if post.video %}
+<div class="post-video">
+                <video controls class="video-player">
+                    <source src="{{ post.video.url }}" type="video/mp4">
+                </video>
+
+    <div class="video-overlay">
+        <div class="video-preview-content">
+            <button class="play-button">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                    <circle cx="40" cy="40" r="38" fill="rgba(255,255,255,0.9)" stroke="#3498db" stroke-width="3"/>
+                    <polygon points="30,22 30,58 54,40" fill="#3498db"/>
+                </svg>
+            </button>
+            <p class="video-preview-text">Нажмите для воспроизведения</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+    
+    <div class="post-content-full">
+        {{ post.content|linebreaks }}
+    </div>
+    
+    <div class="post-navigation">
+        <a href="{% url 'home' %}" class="back-link">← Назад к списку статей</a>
+    </div>
+</article>
+{% endblock %}

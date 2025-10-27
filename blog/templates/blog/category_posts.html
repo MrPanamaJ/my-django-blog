@@ -1,0 +1,40 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}Статьи в категории: {{ category.name }}{% endblock %}
+
+{% block content %}
+<div class="category-header">
+    <h1>Статьи в категории: "{{ category.name }}"</h1>
+    <p class="category-info">Найдено статей: {{ posts.count }}</p>
+</div>
+
+{% if posts %}
+    <div class="posts-grid">
+        {% for post in posts %}
+            <article class="post-card">
+                {% if post.image %}
+                    <div class="post-image">
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}" loading="lazy">
+                    </div>
+                {% endif %}
+                <div class="post-content">
+                    <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+                    <div class="post-meta">
+                        <span class="category">{{ post.category.name|default:"Без категории" }}</span>
+                        <span class="date">{{ post.create_date|date:"d.m.Y" }}</span>
+                    </div>
+                    <p class="post-excerpt">{{ post.content|truncatewords:20 }}</p>
+                    <a href="{% url 'post_detail' pk=post.pk %}" class="read-more">Читать далее</a>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="no-posts">В этой категории пока нет статей.</p>
+{% endif %}
+
+<div class="navigation">
+    <a href="/" class="back-link">← Назад к всем статьям</a>
+</div>
+{% endblock %}
